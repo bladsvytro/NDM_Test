@@ -1,5 +1,4 @@
 #include <arpa/inet.h> //htonl,  htons,  ntohl,  ntohs
-#include <errno.h>     //erors
 #include <netinet/in.h>
 #include <stdio.h>
 #include <stdlib.h>

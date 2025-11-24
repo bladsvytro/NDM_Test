@@ -11,8 +11,8 @@ client: src/client.c
 
 clean:
 	rm -f server client
-
-format:
-	find src include -name "*.c" -o -name "*.h" | xargs clang-format -i -style=file:materials/.clang-format
+rebuild: clean all
+#format:
+####find src include -name "*.c" -o -name "*.h" | xargs clang-format -i -style=file:materials/.clang-format
 
 .PHONY: all clean format

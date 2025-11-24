@@ -1,6 +1,5 @@
 #include <arpa/inet.h>
-#include <errno.h> //erors
-#include <errproc.h>
+#include <errproc.h> // заголовочный где не видна реализация оболочек
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/socket.h> //socket, listen, acept

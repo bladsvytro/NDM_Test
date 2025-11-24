@@ -16,8 +16,14 @@ int main (){
   struct sockaddr_in adr = {0};
   adr.sin_family = AF_INET;
   adr.sin_port = htons(34521);
-  Inet_pton(AF_INET, "127.0.0.1", &adr.sin_addr);
-  Connect(fd, (struct sockaddr *)&adr, sizeof(adr));
+  Inet_pton(AF_INET, "127.0.0.1", &adr.sin_addr);//include/errproc.h
+  Connect(fd, (struct sockaddr *)&adr, sizeof(adr));//include/errproc.h
+  printf("Подключение к серверу успешно!\n\n"
+       "Вы можете:\n"
+       "• Писать сообщения\n"
+       "• Использовать команды через '/'\n\n"
+       "Используйте \"/help\" для отображения списка команд\n"
+       "Используйте \"/exit\" чтобы выйти\n\n");
   write(fd, "VSEM SOSAT\n", 10);
   char buf[256];
   ssize_t nread;
