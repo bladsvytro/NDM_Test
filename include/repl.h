@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include <time.h>
+#include <stdio.h>
 
 // Инициализация командной системы клиента
 void client_commands_init(void);

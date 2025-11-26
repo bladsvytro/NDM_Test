@@ -6,6 +6,7 @@
 #include <sys/socket.h> //socket, listen, acept
 #include <sys/types.h>  //
 #include <unistd.h>     //
+#include <stdio.h>
 
 int Socket(int domain, int type, int protocol) {
   int res = socket(domain, type, protocol);

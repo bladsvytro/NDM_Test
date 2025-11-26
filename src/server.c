@@ -49,8 +49,6 @@ int main() {
         count_users++;
         printf("New client connected! fd=%d, Online:%d, IP:%s\n", client_fd,
                count_users, inet_ntoa(client_addr.sin_addr));
-        char *welcome = "Connected to server!\nUse /help for commands\n";
-        write(client_fd, welcome, strlen(welcome));
         event.events = EPOLLIN;
         event.data.fd = client_fd;
         Epoll_ctl(epoll_fd, EPOLL_CTL_ADD, client_fd, &event);

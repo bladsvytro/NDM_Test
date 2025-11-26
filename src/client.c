@@ -21,6 +21,8 @@ int main() {
   Inet_pton(AF_INET, "127.0.0.1", &adr.sin_addr);
 
   Connect(fd, (struct sockaddr *)&adr, sizeof(adr));
+  char *welcome = "Connected to server!\nUse /help for commands\n";
+  printf(welcome);
   client_commands_init();
 
   while (1) {
