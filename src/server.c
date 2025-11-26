@@ -9,7 +9,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#define port 34521 //random
+#define port 34521 // random
 #define MAX_EVENTS 111
 #define BUFFER_SIZE 1024
 
@@ -49,13 +49,11 @@ int main() {
         count_users++;
         printf("New client connected! fd=%d, Online:%d, IP:%s\n", client_fd,
                count_users, inet_ntoa(client_addr.sin_addr));
-
+        char *welcome = "Connected to server!\nUse /help for commands\n";
+        write(client_fd, welcome, strlen(welcome));
         event.events = EPOLLIN;
         event.data.fd = client_fd;
         Epoll_ctl(epoll_fd, EPOLL_CTL_ADD, client_fd, &event);
-
-        char *welcome = "Connected to server!\nUse /help for commands\n";
-        write(client_fd, welcome, strlen(welcome));
 
       } else {
         int client_fd = events[i].data.fd;

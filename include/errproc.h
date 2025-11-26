@@ -2,9 +2,9 @@
 #define ERPROC_H
 // include stobi weror ne jalovalsya
 #include <netinet/in.h>
+#include <sys/epoll.h>
 #include <sys/socket.h>
 #include <sys/types.h>
-#include <sys/epoll.h>
 
 int Socket(int domain, int type, int protocol);
 
@@ -24,6 +24,7 @@ int Epoll_create1(int __flags);
 
 int Epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);
 
-int Epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout);
+int Epoll_wait(int epfd, struct epoll_event *events, int maxevents,
+               int timeout);
 
 #endif
