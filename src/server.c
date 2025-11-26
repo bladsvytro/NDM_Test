@@ -13,6 +13,7 @@
 #define BUFFER_SIZE 1024
 
 int main() {
+  int count_users = 0;
     int epoll_fd;//try))))
    int server = Socket(AF_INET, SOCK_STREAM, 0);
   struct epoll_event event, events[MAX_EVENTS];
@@ -28,22 +29,17 @@ int main() {
   event.data.fd =server;
   printf("Epoll initialized. Waiting......\n");
   while (1) {
-        // ЖДЕМ СОБЫТИЙ ОТ EPOLL (блокирующий вызов)
         int nfds = Epoll_wait(epoll_fd, events, MAX_EVENTS, -1);
         printf("Received %d events\n", nfds);
-
-        // ОБРАБАТЫВАЕМ КАЖДОЕ СОБЫТИЕ
         for (int i = 0; i < nfds; i++) {
-            // ЕСЛИ СОБЫТИЕ НА СЕРВЕРНОМ СОКЕТЕ - ЭТО НОВОЕ ПОДКЛЮЧЕНИЕ
+ 
             if (events[i].data.fd == server) {
                 struct sockaddr_in client_addr;
                 socklen_t client_len = sizeof(client_addr);
-                
-                // ПРИНИМАЕМ НОВОЕ ПОДКЛЮЧЕНИЕ
-                int client_fd = Accept(server, (struct sockaddr*)&client_addr, &client_len);
-                printf("New client connected! fd=%d\n", client_fd);
 
-                // ДОБАВЛЯЕМ НОВОГО КЛИЕНТА В EPOLL ДЛЯ ОТСЛЕЖИВАНИЯ ЕГО ДАННЫХ
+                int client_fd = Accept(server, (struct sockaddr*)&client_addr, &client_len);
+                count_users++;
+                printf("New client connected! fd=%d, Online:%d\n", client_fd,count_users);
                 event.events = EPOLLIN;
                 event.data.fd = client_fd;
                 Epoll_ctl(epoll_fd, EPOLL_CTL_ADD, client_fd, &event);
@@ -53,6 +49,7 @@ int main() {
                                 "Используйте \"/help\" для отображения списка команд\n"
                                 "Используйте \"/exit\" чтобы выйти\n\n";
                 write(client_fd, welcome, strlen(welcome));
+                
             } 
             else {
 
@@ -68,12 +65,14 @@ int main() {
                     write(client_fd, buf, nread);
                     
                 } else if (nread == 0) {
-                    printf("Client %d disconnected\n", client_fd);
+                    printf("Client %d disconnected  online: %d \n", client_fd, count_users-1);
                     close(client_fd);
+                    count_users--;
                 } else {
-
                     perror("read");
                     close(client_fd);
+                    printf("Client %d disconnected  online: %d \n", client_fd, count_users-1);
+                    count_users--;
                 }
             }
         }
