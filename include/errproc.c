@@ -1,7 +1,8 @@
 #include <arpa/inet.h>
-#include <errproc.h> // заголовочный где не видна реализация оболочек
+// #include <errproc.h> // заголовочный 
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/epoll.h>
 #include <sys/socket.h> //socket, listen, acept
 #include <sys/types.h>  //
 #include <unistd.h>     //
@@ -61,3 +62,47 @@ void Inet_pton(int af, const char *restrict src, void *restrict dst) {
            "dress family.  If af does not contain a valid address family");
   }
 }
+
+ssize_t Read(int fd, void *buf, size_t count) {
+    ssize_t nread = read(fd, buf, count);
+    
+    if (nread == -1) {
+        perror("read failure");
+        exit(EXIT_FAILURE);
+    }
+    if (nread == 0) {
+        printf("EOF occurred\n");
+    }
+    return nread;
+}
+
+int Epoll_create1(int __flags){
+  int res = epoll_create1(__flags);
+    if (res == -1) {
+        perror("epoll_create1 failure");
+        exit(EXIT_FAILURE);
+    }
+  return res;
+}
+
+// Управление epoll (добавление/удаление/изменение сокетов)
+int Epoll_ctl(int epfd, int op, int fd, struct epoll_event *event) {
+    int res = epoll_ctl(epfd, op, fd, event);
+    if (res == -1) {
+        perror("Epoll_ctl failure");
+        exit(EXIT_FAILURE);
+    }
+    return res;
+}
+
+// Ожидание событий epoll
+int Epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout) {
+    int res = epoll_wait(epfd, events, maxevents, timeout);
+    if (res == -1) {
+            perror("Epoll_wait failure");
+            exit(EXIT_FAILURE);
+    }
+    return res;
+}
+
+
