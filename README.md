@@ -11,11 +11,11 @@
 
 Сборка
 bash
-make all        # стандартная сборка
-make rebuild    # полная пересборка
-make clean      # очистка
-make server-ignore # сборка сервера без строгих проверок
-make client-ignore # сборка клиента без строгих проверок
+make all# стандартная сборка
+make rebuild# полная пересборка
+make clean# очистка
+make server-ignore#сборка сервера без строгих проверок
+make client-ignore#сборка клиента без строгих проверок
 Запуск
 Сначала запустите сервер:
 ./server
